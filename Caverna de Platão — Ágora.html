@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caverna de Platão — Ágora</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f4eee0;--surf:#ebe2cd;--card:#faf6ea;--ink:#2b2a27;--mut:#6f695b;--line:#d6cbb0;--acc:#8a6a3b;--sup:#4f5b3a;--warn:#9a4a34}
+:root[data-theme="night"]{--bg:#1c1915;--surf:#26211a;--card:#2b251d;--ink:#e8dcc2;--mut:#a39880;--line:#40382b;--acc:#c49a5a;--sup:#8fa070;--warn:#c9775c}
+:root[data-theme="contrast"]{--bg:#fff;--surf:#f0f0f0;--card:#fff;--ink:#000;--mut:#222;--line:#000;--acc:#6b3d00;--sup:#003d2e;--warn:#a00000}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--bg:#1c1915;--surf:#26211a;--card:#2b251d;--ink:#e8dcc2;--mut:#a39880;--line:#40382b;--acc:#c49a5a;--sup:#8fa070;--warn:#c9775c}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;margin:0}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+nav{background:var(--surf);border-right:1px solid var(--line);padding:24px 14px;position:sticky;top:0;height:100vh}
+nav h1{font-size:22px;padding:0 10px 18px}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--ink);padding:9px 10px;border-radius:6px;font:inherit;cursor:pointer}
+nav button.on{background:var(--card);border-left:2px solid var(--acc)}
+nav button:disabled{color:var(--mut);cursor:not-allowed}
+nav small{display:block;color:var(--mut);padding:14px 10px 0;font-size:12px}
+main{padding:36px clamp(16px,4vw,56px);max-width:1000px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:24px}
+.top h2{font-size:34px}.top p{margin:4px 0 0;color:var(--mut)}
+.clock{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--acc)}
+.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;box-shadow:0 1px 3px #0001}
+.card h3{font-size:22px;margin-bottom:12px}
+input,select,button.b{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:7px 10px}
+button.b{cursor:pointer;background:var(--sup);color:#fff;border-color:var(--sup)}
+button.b.o{background:none;color:var(--ink);border-color:var(--line)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.t{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.t.d span{text-decoration:line-through;color:var(--mut)}.t span{flex:1}
+.t em{font-style:normal;font-size:12px;color:var(--mut)}.p-alta{color:var(--warn)!important}
+.t .x{background:none;border:0;color:var(--mut);cursor:pointer;font-size:18px}
+.bar{height:8px;background:var(--surf);border-radius:4px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--sup);transition:width .4s}
+.big{font-family:'Cormorant Garamond',serif;font-size:46px;color:var(--acc);line-height:1}
+.mut{color:var(--mut);font-size:13px}
+.th{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:6px}
+@media(max-width:760px){.app{grid-template-columns:1fr}nav{position:static;height:auto;display:flex;overflow-x:auto;gap:4px;padding:10px;border:0;border-bottom:1px solid var(--line)}nav h1,nav small{display:none}nav button{white-space:nowrap;width:auto}.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<div class="app">
+<nav aria-label="Navegação"><h1>Caverna de Platão</h1>
+<button class="on" aria-current="page">Ágora</button>
+<button disabled>Rotina</button><button disabled>Estudos</button><button disabled>Calendário</button>
+<button disabled>Biblioteca de Alexandria</button><button disabled>Diário</button><button disabled>Estatísticas</button><button disabled>Configurações</button>
+<small>Seções desativadas: fases seguintes.</small></nav>
+<main>
+<header class="top"><div><h2 id="hi"></h2><p id="dt"></p></div><div class="clock" id="clk" aria-live="off"></div></header>
+<div class="grid">
+<section class="card" aria-labelledby="h1t"><h3 id="h1t">Os trabalhos de hoje</h3>
+<div class="row"><input id="tt" placeholder="Nova tarefa" aria-label="Título da tarefa" style="flex:1;min-width:140px">
+<input id="tm" type="time" aria-label="Horário"><select id="tp" aria-label="Prioridade"><option>média</option><option>alta</option><option>baixa</option></select>
+<button class="b" id="add">Adicionar</button></div>
+<div id="list"></div><p class="mut" id="tc"></p></section>
+<section class="card" aria-labelledby="h2t"><h3 id="h2t">A disciplina do dia</h3>
+<div class="big" id="pct">0%</div><div class="bar"><i id="pb" style="width:0"></i></div>
+<p class="mut" id="stat"></p>
+<div class="row"><button class="b" id="go">Iniciar</button><button class="b o" id="fin" disabled>Finalizar</button></div>
+<div class="row"><label class="mut">Meta (min) <input id="goal" type="number" min="10" step="10" style="width:80px"></label></div>
+<p class="mut" id="ses"></p></section>
+</div>
+<p class="mut" style="margin-top:24px">Dados salvos apenas neste navegador (localStorage). Contas, sincronização entre dispositivos e banco de dados real dependem do backend, ainda não construído.</p>
+</main></div>
+<div class="th" role="group" aria-label="Tema"><button class="b o" data-t="light">Clássico</button><button class="b o" data-t="night">Noturno</button><button class="b o" data-t="contrast">Contraste</button></div>
+<script>
+const $=id=>document.getElementById(id);
+const key='caverna_v1';let S={tasks:[],sessions:[],goal:240,theme:null,date:''};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(key)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(key,JSON.stringify(S))}catch(e){}};
+const dayKey=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+let run=null; // {start, acc}
+function theme(t){if(t){document.documentElement.dataset.theme=t;S.theme=t;save()}}
+if(S.theme)document.documentElement.dataset.theme=S.theme;
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>theme(b.dataset.t));
+function head(){const n=new Date(),h=n.getHours();
+$('hi').textContent=(h<5?'Boa madrugada':h<12?'Bom dia':h<18?'Boa tarde':'Boa noite');
+$('dt').textContent=n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+$('clk').textContent=n.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function tasks(){const L=$('list');L.innerHTML='';
+S.tasks.sort((a,b)=>(a.time||'99').localeCompare(b.time||'99'));
+S.tasks.forEach(t=>{const r=document.createElement('div');r.className='t'+(t.done?' d':'');
+r.innerHTML='<input type="checkbox" aria-label="Concluir"><span></span><em></em><button class="x" aria-label="Excluir">×</button>';
+r.querySelector('input').checked=t.done;r.querySelector('span').textContent=t.title;
+const e=r.querySelector('em');e.textContent=(t.time?t.time+' · ':'')+t.pri;if(t.pri==='alta')e.classList.add('p-alta');
+r.querySelector('input').onchange=ev=>{t.done=ev.target.checked;save();tasks()};
+r.querySelector('.x').onclick=()=>{S.tasks=S.tasks.filter(x=>x!==t);save();tasks()};L.appendChild(r)});
+const d=S.tasks.filter(t=>t.done).length;$('tc').textContent=S.tasks.length?d+' de '+S.tasks.length+' concluídas':'Nenhuma tarefa ainda.';}
+$('add').onclick=()=>{const v=$('tt').value.trim();if(!v)return;
+S.tasks.push({id:Date.now(),title:v,time:$('tm').value,pri:$('tp').value,done:false});$('tt').value='';save();tasks()};
+$('tt').onkeydown=e=>{if(e.key==='Enter')$('add').click()};
+// timer: only counts while running; sessions saved with real timestamps
+function todayMin(){const k=dayKey(new Date());let s=S.sessions.filter(x=>x.day===k).reduce((a,x)=>a+x.sec,0);
+if(run)s+=Math.floor((Date.now()-run.start)/1000);return s/60}
+function study(){const m=todayMin(),g=S.goal;$('pct').textContent=Math.min(100,m/g*100).toFixed(1).replace('.',',')+'%';
+$('pb').style.width=Math.min(100,m/g*100)+'%';
+$('stat').textContent=Math.floor(m)+' min estudados · restam '+Math.max(0,Math.ceil(g-m))+' min · meta '+g+' min';
+const k=dayKey(new Date());$('ses').textContent=S.sessions.filter(x=>x.day===k).length+' sessão(ões) hoje';
+$('go').textContent=run?'Pausar':'Iniciar';$('fin').disabled=!run}
+function endRun(){if(!run)return;const sec=Math.floor((Date.now()-run.start)/1000);
+if(sec>=1)S.sessions.push({day:dayKey(new Date(run.start)),sec,at:run.start});run=null;save()}
+$('go').onclick=()=>{if(run)endRun();else run={start:Date.now()};study()};
+$('fin').onclick=()=>{endRun();study()};
+$('goal').value=S.goal;$('goal').onchange=e=>{S.goal=Math.max(10,+e.target.value||240);save();study()};
+head();tasks();study();setInterval(()=>{head();study()},1000);
+</script></body></html>
