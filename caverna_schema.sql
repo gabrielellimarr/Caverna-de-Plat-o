@@ -526,3 +526,4 @@ create view public.v_syllabus_progress with (security_invoker = true) as
   from public.syllabus_items i
   where not exists (select 1 from public.syllabus_items c where c.parent_id = i.id)  -- só folhas
   group by process_id, user_id;
+supabase/migrations/0001_init.sql
